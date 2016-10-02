@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Publicación de Defansa</title>
+	<style type="text/css">
+	*{margin: 0px; padding: 0px;}
+
+	body div p{ font-family: Arial, sans-serif;font-size: 25px; line-height: 25px;; margin: 25px;
+		text-align:justify ; width: 50%; margin: auto;}
+	body div #titulo{text-align: center; margin-top: 35px;margin-bottom: 30px;}
+	footer div{width: 50%;margin: auto;margin-top: 50px;}
+	footer div li{margin: auto;float: left;width: 250px; list-style: none; text-align: center;}
+	</style>
+</head>
+<body>
+<div>
+	<p id="titulo">
+		<strong>Decanato de la Facultad de Ingenieríastron</strong><br>
+	</p>
+	<p id="titulo">
+		<strong>EXAMEN DE DEFENSA ORAL DE TESIS</strong>
+	</p>
+	<p>
+CARRERA:<br>{{id_alumno.carrera|upper}}
+<br><br>
+POSTULANTE:<br>
+{{dato.alumno|upper}}
+<br><br>
+
+TEMA:<br>
+“{{dato.titulo|upper}}”
+<br><br>
+DIA Y FECHA:	
+<strong>MIERCOLES</strong> {{dato.fecha_de_defensa}}
+<br><br>
+
+HORAS:<br>
+{{dato.hora_de_la_defensa}}
+<br><br>
+
+AMBIENTE:<br>
+{{dato.lugar|upper}}
+	</p>
+</div>
+</body>
+</html>

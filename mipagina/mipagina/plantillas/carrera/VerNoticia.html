@@ -1,0 +1,32 @@
+<style type="text/css">
+table tr td{padding: 1px;}
+table tr td #imagen{border: 2px solid #000; width: 200px;height: 180px;}
+</style>
+<table class="table table-hover">
+{% for i in noticias %}
+		  <tr>
+                <td rowspan="9"><img src="{{MEDIA_URL}}/{{i.archivo}}" id="imagen"></td>
+            </tr>
+            <tr class="success"><td align="center">Titulo: {{i.titulo}}</td></tr>
+            <tr><td>Categoria: {{i.categoria}}}</td></tr>
+            <tr><td>Comentario: {{i.texto}}</td></tr>
+            <tr> <td>Carrera: {{i.carrera}}</td></tr>
+            <tr><td>Publicado por: {{i.usuario}}</td></tr>
+           
+            <tr><td>Fecha: {{i.fecha}}</td></tr>
+            <tr><td>
+			{% if i.estado == 0 %}
+				<span>Estado: <img src="/static/img/icon_success.gif"></span>
+			{% else %}
+				<span>Estado: <img src="/static/img/icon_error.gif"></span>
+			{% endif %}
+            </td></tr>
+            <tr><td>
+			<a href="/EditNoticia/{{i.id}}/"><span class="glyphicon glyphicon-pencil"></span></a>
+  			<a href="/deleteNoticia/{{i.id}}/"><span class="glyphicon glyphicon-trash" style="color:red"></span></a>
+            </td> </tr>
+{% endfor %}
+<tr><td><strong>Registros Activos:{{cont}}</td><td>Registros Inactivos: {{con}}</strong></td></tr>
+</table>
+<script type="text/javascript" src="{{STATIC_URL}}js/modales.js"></script>
+

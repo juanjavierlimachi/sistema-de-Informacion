@@ -1,0 +1,31 @@
+<table class="table table-hover table-striped">
+	<tr><td colspan='4' align='center'>LISTA DE MENSIONES</td></tr>
+	<tr class="success">
+		<td>NOMBRE MENSION</td><td>FECHA DE REGISTRO</td><td>CARRERA</td><td>OPCIONES</td><td>ESTADO</td>
+	</tr>
+{% for i in mensiones %}
+		<tr>
+			<td>{{i.mension}}</td>
+	
+			<td>{{i.fecha}}</td>
+			<td>
+				{% if user.is_active %}
+				<a href="/EditMension/{{i.id}}/"><span class="glyphicon glyphicon-pencil"></span></a>
+				<a href="/deleteMensio/{{i.id}}/"><span class="glyphicon glyphicon-trash" style="color:red"></span></a>
+				{% else %}
+					<span class="glyphicon glyphicon-info-sign"></span>
+				{% endif %}
+			</td>
+			<td>{{i.carrera}}</td>
+			<td>
+				{% if i.estado == 0 %}
+					<span><img src="/static/img/icon_success.gif"></span>
+				{% else %}
+					<span><img src="/static/img/icon_error.gif"></span>
+				{% endif %}
+			</td>	
+		</tr>
+{% endfor %}
+<tr><td>Registros Activos:{{cont}}</td><td>Registros Inactivos: {{con}}</td></tr>
+</table>
+<script type="text/javascript" src="{{STATIC_URL}}js/modales.js"></script>

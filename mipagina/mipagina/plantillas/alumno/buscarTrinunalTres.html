@@ -1,0 +1,16 @@
+<script type="text/javascript">
+	$(".aa a").on('click',Escogido);
+	function Escogido(e){
+		e.preventDefault();
+		var ulrs=$(this).attr("href");
+		var name=$(this).attr("name");
+		//alert(ulrs);
+		$("#id_tribunal_3").val(ulrs);
+		$("#tres").val(name);
+		$(".tres").hide();
+	}
+</script>
+{% for i in resultados %}
+<li class="aa"><a href="{{i.id}}" name="{{i.nombre}}  {{i.apellido_paterno}}  {{i.apellido_materno}}">{{i.grado}}.- {{i.nombre}} - {{i.apellido_paterno}} - {{i.apellido_materno}} - {{i.carrera}}</a></li>
+
+{% endfor %}

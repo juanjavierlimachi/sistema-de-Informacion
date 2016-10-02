@@ -1,0 +1,24 @@
+<script type="text/javascript">
+$('#Tipo').submit(function(e){
+		e.preventDefault();
+		var dato=new FormData(this);
+		console.log(dato);
+		$.ajax({
+			type:"POST",
+			url:"/EditNoticia/"+{{cod}}+"/",
+			data: dato,
+			contentType: false,
+	        processData: false,
+			success:function(resp){
+				console.log(resp);
+				$('#ventanas').html(resp);
+			}
+		});
+	});
+</script>
+<div class="card">
+<form method="POST" id="Tipo" enctype='multipart/form-data'>{% csrf_token %}
+	{{forms}}<br>
+	<button class="btn btn-primary">Actualizar</button>
+</form>
+</div>

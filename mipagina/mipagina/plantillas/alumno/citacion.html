@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	 <meta charset="utf-8">
+	<title>Citación</title>
+	<style type="text/css">
+	*{margin: 0px; padding: 0px;}
+
+	body div p{ font-family: Arial, sans-serif;font-size: 15px; line-height: 25px;; margin: 25px;
+		text-align:justify ; width: 50%; margin: auto;}
+	body div #titulo{text-align: center; margin-top: 0px;margin-bottom: 0px;}
+	footer div{width: 50%;margin: auto;margin-top: 50px;}
+	footer div li{margin: auto;margin-left: 150px;width: 250px; list-style: none; text-align: center;position: absolute;margin-top: 20px;}
+	#tit{margin-top: 100px;height: auto;margin: auto;}
+	#tit li{width: 60%;height: auto;margin:auto;}
+	#tribunales{display: block;width: 50%;height: auto;margin: auto;margin-top: 200px;margin-bottom: 15px;}
+	#tribunales li{margin-left: 50px;font-size: 16px;}
+	
+	</style>
+</head>
+<body>
+<div>
+	<p id='titulo'><strong>C  I  T  A  C  I  O  N</strong></p>
+<p>Se cita a los señores miembros del Tribunal Examinador {% if id_alumno.sexo == 'M' %} del {% else %} de la {% endif %} postulante  <strong>{{dato.alumno|upper}}</strong>, con el objeto de recibir el Examen de Defensa Oral de {{dato.modaliad}} de la Carrera de {{id_alumno.carrera}}, con el tema titulado: “<strong>{{dato.titulo|upper}}</strong>”.
+</p><br>
+<p>
+Acto programado para el día <strong>miércoles</strong> {{dato.fecha_de_defensa}}, a horas {{horas}} en el ambiente {{dato.lugar}}, dependiente de la Facultad de Ingeniería.
+</p>
+<br><br>
+<p>Potosí, {{fecha}}</p>
+<footer><div><li>
+		 Ing. Alberto Gonzales Murillo
+  <strong>DECANO a.i. FACULTAD INGENIERÍA</strong></li></div></footer>
+<footer>
+<p><strong>POSTULANTE:</strong><br>
+<strong> {{dato.alumno|upper}}</strong>
+</p>
+		
+</div>
+</body>
+</html>

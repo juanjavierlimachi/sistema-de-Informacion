@@ -1,0 +1,84 @@
+<script type="text/javascript">
+$(function(){
+	$('#Tipo').submit(function(e){
+		e.preventDefault();
+		var dato=$(this).serialize();
+		console.log(dato);
+		$.ajax({
+			type:'POST',
+			url:'/NewDefensa/',
+			data: dato,
+			success:function(resp){
+				var cod=parseInt(resp);
+				//$('#FormAjax').html(resp);
+				$.ajax({
+				      type:'GET',
+				      url:'/datalles/'+cod+'/',
+				      beforeSend:Espera,
+				      success:function(resp){
+				          $("#FormAjax").html(resp);
+				      }
+				 });
+				  function Espera(){
+				      $("#FormAjax").text("Procesando");
+				  }
+				
+			}
+		});
+	});
+	var tbuscar=$("#nombre").attr('autocomplete','off');
+    tbuscar.keypress(buscarAlumno);
+    $.datepicker.setDefaults($.datepicker.regional["es"]);
+    $( "#id_fecha_de_defensa" ).datepicker({
+    	closeText: 'Cerrar',
+		 prevText: '<Ant',
+		 nextText: 'Sig>',
+		 currentText: 'Hoy',
+		 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+		 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+		 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+		 dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+		 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+		 weekHeader: 'Sm',
+		 dateFormat: 'yy-mm-dd',
+		 firstDay: 1,
+		 isRTL: false,
+		 showMonthAfterYear: false,
+		 yearSuffix: ''
+    });
+  
+	$("#id_hora_de_la_defensa").timepicker({
+	    showPeriodLabels: false,
+	});
+
+$("#alumno").hide();
+});
+function buscarAlumno(){
+    $.ajax({
+        type:'GET',
+        url:'/buscarAlumno/',
+        data:$(this).serialize(),
+        success:resultado,
+        error:errores
+    });
+}
+function resultado(data){
+    $(".resultados").fadeIn("slow");
+    console.log(data);
+    $(".resultados").html(data);
+}
+function errores(){
+    alert ("Error");
+}
+</script>
+<div class="card">
+	<p id="texto">Registro Memorial a Solicitud del Alumno</p>
+	<form method="POST" id="Tipo">{% csrf_token %}
+		<input type="text" name="alumno" id="alumno" ><br>
+		<label>Alumno:</label><input type="tex" name="nombre" id="nombre">
+		<label>Carrera:</label><input type="text" name="carrera" id="carrera" disabled>
+		<div class="resultados"></div>
+		{{forms}}<br>
+		<button class="btn btn-primary">Registrar</button>
+	</form>
+</div>

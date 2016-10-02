@@ -1,0 +1,208 @@
+<script type="text/javascript">
+$(function(){
+	$("#datos").hide();
+	$("#sig").on("click",Siguiente);
+	function Siguiente(e){
+		e.preventDefault();
+		$("#alumno").hide();
+		$("#datos").show(1000);
+		$(".requi").hide();//oculto los requisitos
+		if($("#id_nombre").val()=="" || $("#id_apellido_paterno").val()==""){
+			$("#alumno").show();
+			$("#datos").hide();
+			$('#id_nombre').focus();
+			$('#id_nombre').style.color='red';
+		}
+	}
+	/*$("#registro").on("click", Registro);
+	function Registro(e){
+		e.preventDefault();
+		var dato=$(this).serialize();
+		console.log(dato);
+	}*/
+	$("#men").hide();
+	$("#ttt").hide();
+	$("#car").hide();
+	$(".card").hide();//primero escondo al formulario
+	$("#temaa").on("click",function(e){
+		e.preventDefault();
+		var tema=document.getElementsByName("tema")[0].value;
+		var carrera=document.getElementsByName("carre")[0].value;
+		$.ajax({
+			type:'GET',
+			url:'/consultar/',
+			data:{'carrera':carrera},
+			success:function(resp){
+				$("#c").text(resp);
+				if(resp != "Ingenieria Civil"){
+					$("#mension").hide();
+					$("#g").hide();
+				}
+			}
+		});
+		$(".requi").hide();//oculto los requisitos
+		$("#car").val(carrera);
+		$("#ttt").val(tema);
+		//$("#id_carrera").val(carrera);
+		//$("#c").text(carrera);
+		$("#m").text(tema);
+		$(".card").show(1000);
+		$("#tt").hide();
+
+	});
+	$('#Tipo').submit(function(e){
+		e.preventDefault();
+		var dato=$(this).serialize();
+		console.log(dato);
+		if ($("#id_titulo").val()=="" || $("#id_numero_documento").val()==""){
+			//alert("noo");
+			$('#id_titulo').focus();
+			return false;
+		}
+		else{
+			$.ajax({
+				type:'POST',
+				url:'/NewAlumno/',
+				data: dato,
+				success:function(resp){
+					console.log(resp);
+					//$('#FormAjax').html(resp);
+					var cod = parseInt(resp)
+						$.ajax({
+					      type:'GET',
+					      url:'/PerfilAlumno/'+cod+'/',
+					      beforeSend:Espera,
+					      success:function(resp){
+					          $("#FormAjax").html(resp);
+					      }
+					  	});
+					    function Espera(){
+					      $("#FormAjax").text("Procesando");
+					   	}
+					
+				}
+			});
+		}
+	});
+$("#carre").on("change",function(){
+	var carrera=$(this).val();
+	$.ajax({
+			type:'GET',
+			url:'/consultarInfo/',
+			data:{'carrera':carrera},
+			success:function(resp){
+				$(".requi").html(resp);
+
+			}
+		});
+});
+
+var tbuscar=$("#mension").attr('autocomplete','off');
+    tbuscar.keypress(Mension);
+
+$( "#id_fecha_de_defensa" ).datepicker({
+    	closeText: 'Cerrar',
+		 prevText: '<Ant',
+		 nextText: 'Sig>',
+		 currentText: 'Hoy',
+		 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+		 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+		 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+		 dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+		 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+		 weekHeader: 'Sm',
+		 dateFormat: 'yy-mm-dd',
+		 firstDay: 1,
+		 isRTL: false,
+		 showMonthAfterYear: false,
+		 yearSuffix: ''
+    });
+$("#id_hora_de_la_defensa").timepicker({
+	    showPeriodLabels: false,
+	});
+
+});//inicio
+function Mension(){
+    $.ajax({
+        type:'GET',
+        url:'/ShearMension/',
+        data:$(this).serialize(),
+        success:resultado,
+        error:errores
+    });
+}
+function resultado(data){
+    $("#mesiones").fadeIn("slow");
+    console.log(data);
+    $("#mesiones").html(data);
+}
+function errores(){
+    alert ("Error");
+}
+</script>
+<style type="text/css">
+#mesiones{width: 200px;position: absolute; margin: auto; background: white;
+	margin-left: 160px; margin-top: -10px;}
+ #mesiones li{height: 25px; margin-left: 10px; list-style: none;}
+ #mesiones li a{padding: 10px; margin-top: 15px;}
+ #mesiones li:hover{background: #ecf0f5;}
+ .requi li{list-style: none; width: 60%; height: auto; margin: auto;}
+ #tt{width: 70%; height: auto;margin: auto;}
+ #tt form p h4{text-align: center;}
+</style>
+<div id="tt">
+<form id="da">
+	<p><h4>Programacion de Defensa Oral</h4></p>
+<label>Modalidad: </label><select name="tema">
+	<option value="Proyecto de Grado">PROYECTO DE GRADO</option>
+	<option value="Tesis">TESIS</option>
+	<option value="Programa de graduación de anteriores egresados (P.G.A.E)">PROGRAMA DE GRADUACION DE ANTERIORES EGRESADOS (PGAE)</option>
+	<option value="Graduación por Exelecia">GRADUACION POR EXCELENCIA</option>
+	<option value="Trabajo Dirigido">TRABAJO DIRIGIDO</option>
+	
+</select>
+<label>Carrera: </label><select name="carre" id="carre">
+	{% for i in carreras %}
+	<option value="{{i.id}}">{{i.carrera}}</option>
+	{% endfor %}
+</select>
+<button class="btn btn-success" id="temaa">Siguiente</button>	
+</form>
+</div>
+<div class="card">
+	<p id="texto"><strong>Programacion de Defensa Oral, <strong id="c"></strong> 
+		Modalidad: <strong id="m"></strong></strong></p>
+	<form method="POST" id="Tipo">{% csrf_token %}
+		<div id="alumno">
+			<input value="" id="ttt" name="ttt">
+			<input value="" id="car" name="car">
+		{{forms}}<br>
+		<button class="btn btn-success" id="sig">Siguiente</button>
+		</div>
+		<br>
+		<div id="datos">
+			<input type="text" name="men" id="men" value="0" />
+			<label id="g">Mensión:</label><input type="text" name="mension" id="mension" placeholder="Escriba una mension"/>
+			<div id="mesiones"></div>
+			{{formsTesis}}
+			<br>
+			<button class="btn btn-primary" id="registro">Registrar</button>
+		</div>
+	</form>
+</div>
+<div class="requi"></div>
+
+<!-- <div class="requi">
+<p><li>1 .- Archivador Valorado Univercitario</li></p>
+<p><li>2.- Memorial dirigido el señor Decano, solicitando señalamiento de dia hora para el examen</li></p>
+<p><li>3-' Defensa Oral, en papel sellado universitario con timbres de Bs 21</li></p>
+<p><li>4.- Certificado de revicion de Ortografia, Sintaxis etc. otorgado por un profesor de literatura</li></p>
+<p><li>5.- Certificado de cumplimineto del trabajo en la instatucion con que se suscribio el convenio</li></p>
+<p><li>6.- Informe tecnico sobre el trabajo desarrollado en la institucion correspondiente</li></p>
+<p><li>8.- boleta aporte de $ 50.00 "fondo pro-libro", biblioteca carrera Ingenieria de sistemas</li></p>
+<p><li>9.- Solvencia Univercitaria Actualizada, Original</li></p>
+<p><li>10.- Una hoja de papel sellado Universitario con timbres de Bs. 3.50</li></p>
+<p><li>11.- boleta Matricula y programacion original</li></p>
+<p><li>12.- Trabajo en linpio (anillado), 3 ejemplares (si contiene planos deben ser fijados en el enpaste)</li></p>
+<p><li>13.- Medio magnetico 2 CDs (en soble flexible), para Biblioteca Virtual D.S.A.</li></p>
+</div> -->

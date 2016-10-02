@@ -1,0 +1,97 @@
+<script type="text/javascript">
+
+	$(".btn-group a").on("click",function(e){
+		e.preventDefault();
+		var urls=$(this).attr("href");
+		var cod = $(this).attr("id");
+		if(urls == '/datalles/'){
+			$.ajax({
+				  type:'GET',
+			      url:'/datalles/'+cod+'/',
+			      beforeSend:Espera,
+			      success:function(resp){
+			        $("#FormAjax").html(resp);
+			     }
+			});
+			function Espera(){
+		      $("#FormAjax").text("Procesando");
+		    }
+		}
+		else{
+			cargarFormularios(urls)
+				$("#ventanas").dialog({
+					modal:true,
+					show:"blind",
+					width: 600,
+					hide:"explode",
+					title:"Detalles.",
+					position: "center"
+				});	
+							
+
+	    }
+	});
+cargarFormularios=function(url){
+				$.ajax({
+						url: url,
+						type: 'GET',
+						data: {}
+					})
+					.done(function(response) {
+						$("#ventanas").html(response);
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function() {
+						console.log("complete");
+					});
+			}
+</script>
+<div class="btn-group">
+{% if dato.estado == 0 %}
+	{% if tiene %}
+	  	<a href="/datalles/" type="button" class="btn btn-default" id="{{defe.id}}">
+	  	<span class="glyphicon glyphicon-ok-sign" ></span>   Ver Defensa</a>
+	  {% else %}
+	  	<a href="/NewDefensaAlumno/{{dato.id}}/" type="button" class="btn btn-default" id="{{defe.id}}">
+	  	<span class="glyphicon glyphicon-plus-sign"></span>  Registar Defensa</a>
+	 {% endif %}
+	  <a href="/Editalumno/{{dato.id}}/" type="button" class="btn btn-default" id="{{defe.id}}">
+	  	<span class="glyphicon glyphicon-pencil" style="color:blue"></span>  Modifica</a>
+	  <a href="/deleteAlumno/{{dato.id}}/" button type="button" class="btn btn-default" id="{{defe.id}}">
+	  	<span class="glyphicon glyphicon-trash" style="color:red"></span>   Dar Baja</a>
+	{% else %}
+	    <a href="/enbaja/" button type="button" class="btn btn-default" style="color:red" id="{{defe.id}}">
+	    <span class="glyphicon glyphicon-user" >  No hay opciones disponibles</span></a>
+  {% endif %}
+</div><br>
+<table>
+	<tr><td><h4><strong>Perfil Alumno</strong></h4></td></tr>
+	<tr>
+       <td rowspan="10"><img src="{{STATIC_URL}}img/user.png" id="imagen"></td>
+   </tr>
+	<tr><td>Nombre(s): {{dato.nombre}}</td></tr>
+	<tr><td>Apellido Paterno: {{dato.apellido_paterno}}</td></tr>
+	
+	<tr><td>Apellido Materno: {{dato.apellido_materno}}</td></tr>
+	<tr><td>Nro. CI: {{dato.ci}}  {{dato.departamento}}</td></tr>
+	<tr><td>Sexo: {% if dato.sexo == 'M' %}
+		Masculino
+		{% else %}
+		Femenino
+		{% endif %}
+	</td></tr>
+	<tr><td>Carrera: {{dato.carrera}}</td></tr>
+	<tr><td>Fecha de Registro: {{dato.fecha}}</td></tr>
+	<tr><td>Registrado por: {{dato.usuario}}</td></tr>
+	<tr><td>
+		{% if dato.estado == 0 %}
+				Estado:	<span><img src="/static/img/icon_success.gif"></span>
+
+			{% else %}
+				Estado:	<span><img src="/static/img/icon_error.gif"> </span>
+		{% endif %}
+	</td>
+	</tr>
+</table>

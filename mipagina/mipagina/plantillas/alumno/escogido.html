@@ -1,0 +1,71 @@
+<script type="text/javascript">
+$(function(){
+  $(".btn-group a").on("click",function(e){
+    e.preventDefault();
+    var urls=$(this).attr("href");
+    if(urls == '/ok/'){
+      $.ajax({
+          type:'GET',
+          url:'/DefensaTribunal/'+{{dato.id}}+'/',
+          success:function(resp){
+            $("#defensas").html(resp);
+          }
+      });
+    }
+    else{
+      $("#ventanas").dialog({
+          modal:true,
+          show:"blind",
+          width: 600,
+          hide:"explode",
+          title:"Detalles.",
+          position: "center"
+        }); 
+
+        $.ajax({
+            type:'GET',
+              url:urls,
+              beforeSend:Espera,
+              success:function(resp){
+                $("#ventanas").html(resp);
+             }
+        });
+        function Espera(){
+            $("#ventanas").text("Procesando");
+          }
+    }
+    
+  });
+});
+</script>
+<div class="btn-group">
+  {% if dato.estado == 0 %}
+  <a href="/ok/" type="button" class="btn btn-default">
+    <span class="glyphicon glyphicon-chevron-right"></span>  Ver Defensas</a>
+  <a href="/EditTribunal/{{dato.id}}/" type="button" class="btn btn-default" >
+    <span class="glyphicon glyphicon-pencil" style="color:blue"></span> Modifica</a>
+  <a href="/deletetribunal/{{dato.id}}/" button type="button" class="btn btn-default">
+    <span class="glyphicon glyphicon-trash" style="color:red"></span> Dar Baja</a>
+    {% else %}
+    <a href="/enbaja/" button type="button" class="btn btn-default">
+    <span class="glyphicon glyphicon-trash" style="color:red">  No hay opciones disponibles</span></a>
+  {% endif %}
+</div><br>
+<table>
+  <tr><td>Datos del Tribunal</td></tr>
+  <tr><td rowspan="8"><img src="{{STATIC_URL}}img/user.png" id="imagen"></td></tr>  
+  <tr><td>Nivel Univercitario: {{dato.grado}}</td></tr>
+  <tr><td>Nombre(s): {{dato.nombre}}</td></tr>
+  <tr><td>Apellido Paterno: {{dato.apellido_paterno}}</td></tr>
+  <tr><td>Apellido Materno: {{dato.apellido_materno}}</td></tr>
+  <tr><td>Carrera: {{dato.carrera}}</td></tr>
+  <tr><td>Fecha de Registro: {{dato.fecha}}</td></tr>
+  <td>
+    {% if dato.estado == 0 %}
+        Estado: <span><img src="/static/img/icon_success.gif"></span>
+      {% else %}
+        Estado: <span><img src="/static/img/icon_error.gif"></span>
+    {% endif %}
+  </td>
+</table>
+<div id="defensas"></div>

@@ -1,0 +1,48 @@
+<script type="text/javascript">
+$('#Tipo').submit(function(e){
+		e.preventDefault();
+		var dato=$(this).serialize();
+		console.log(dato);
+		$.ajax({
+			type:'POST',
+			url:'/AgregarHora/'+'{{cod}}'+'/',
+			data: dato,
+			success:function(resp){
+				console.log(resp);
+				var cod = parseInt(resp);
+					$.ajax({
+				      type:'GET',
+				      url:'/datalles/'+cod+'/',
+				      beforeSend:Espera,
+				      success:function(resp){
+				          $("#FormAjax").html(resp);
+				          $("#ventanas").dialog("close");
+				      }
+				  	});
+				    function Espera(){
+				      $("#FormAjax").text("Procesando");
+				   	}
+			
+			}
+		});
+	});
+$(function(){
+	$("#id_hora_de_la_defensa").timepicker({
+	    showPeriodLabels: true,
+	});
+});
+</script>
+<div class="card">
+	<p id="texto">Ingrese la Hora de Culminacion y la Nota Optenida</p>
+	<form method="POST" id="Tipo">{% csrf_token %}
+		<label>Hora :</label><input type="time" name="hora" id="id_hora_de_la_defensa"><br>
+		<label>Calificacion :</label><select name="calificacion">
+			<option value="APROBADO">APROBADO</option>
+			<option value="SINPLEMENTE APROBADO">SINPLEMENTE APROBADO</option>
+			<option value="APROBADO CON FELICITACIONES">APROBADO CON FELICITACIONES</option>
+			<option value="APROBADO CON HONORES">APROBADO CON HONORES</option>
+			
+		</select>
+		<button class="btn btn-primary">Registrar</button>
+	</form>
+</div>

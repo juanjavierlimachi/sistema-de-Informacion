@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Solicitud de Acta</title>
+	<style type="text/css">
+	*{margin: 0px; padding: 0px;}
+
+	body div p{ font-family: Arial, sans-serif;font-size: 15px; line-height: 25px;; margin: 25px;
+		text-align:justify ; width: 50%; margin: auto;}
+	body div #titulo{text-align: center; margin-top: 0px;margin-bottom: 0px;}
+	footer div{width: 50%;margin: auto;margin-top: 50px;}
+	footer div li{margin: auto;float: left;width: 250px; list-style: none; text-align: center;}
+	#tit strong{text-align: center;}
+	</style>
+</head>
+<body>
+<div>
+<p>
+CORRESPONDE AL MEMORIAL Nº {{dato.numero_documento}} A FAVOR DE {{dato.alumno|upper}}
+La Secretaría del Decanato de la Facultad de Ingeniería, a solicitud escrita
+ {% if id_alumno.sexo == 'M' %}
+ 	de
+{% else %}
+	de la
+{% endif %}										
+ interesada y de conformidad al Decreto del Vicerrectorado Nº <strong>.........../2016</strong>, expide la presente Certificación de Acta de Examen de Defensa Oral de {{dato.modaliad}}, en tres ejemplares.--- Folio <strong>Nº .........</strong> del Libro de Actas de la Carrera de {{id_alumno.carrera}},  dependiente de la Facultad de Ingeniería de la Universidad Autónoma “Tomás Frías”.-------------
+</p>
+<p i="tit">
+	En la ciudad de Potosí, a horas {{dato.hora_de_la_defensa}} del día <strong>viernes once de diciembre del año dos mil quince</strong>, en cumplimiento a disposiciones de la autoridad académica competente de la Universidad Autónoma “Tomás Frías”, se instaló el Tribunal Examinador compuesto por los siguientes docentes:<br> <strong>Ing. Jenny C. Claure Sempertegui, Presidente; Ing. Marisol J. Muriel Almanza, Vocal Secretario e Ing. Wilfredo F. Terrazas Quispe, Vocal</strong><br>, con el objeto de recibir el Examen de Defensa Oral de {{dato.modaliad}} 
+	{% if id_alumno.sexo == 'M' %}
+ 	del
+{% else %}
+	de la
+{% endif %}
+	 postulante {{dato.alumno|upper}}, con C.I. N° {{id_alumno.ci}} {{id_alumno.departamento}}.,  de la Carrera de {{id_alumno.carrera}}, dependiente de la Facultad de Ingeniería, cuyo tema versa sobre: <strong>"{{dato.titulo}}".</strong>
+Conforme a Reglamento y Resoluciones en vigencia, los componentes del Tribunal, por su orden y por el tiempo señalado al efecto, formulan interrogaciones pertinentes, concluyendo la prueba a horas {{dato.hora_de_Conclucion}} Finalizado el Examen, el Tribunal pasa a deliberar en sesión reservada, para otorgar 
+{% if id_alumno.sexo == 'M' %}
+ 	al
+{% else %}
+	a la
+{% endif %}
+ postulante la calificación de: ***{{dato.calificacion}}***.--- Reinstalada la sesión, el Vocal Secretario del Tribunal, lee públicamente y se suscriben al presente documento en constancia. 
+ <strong>
+ 	{% for tri in dato.tribunal.all %}
+		FDO. {{tri.grado}}. {{tri.nombre}} {{tri.apellido_paterno}} {{tri.apellido_materno}};
+		
+	{% endfor %}
+ FDO. Ing. Alberto Gonzales Murillo, Decano Interino Facultad de Ingeniería.</strong>------<br>
+Potosí, {{fecha}} 
+
+</p>
+<footer>
+<div>
+<li>Téc. Sup. Stria. Leonor Martha Ugarte<br>
+	SECRETARIA
+</li>
+<li>Ing. Alberto Gonzales Murillo<br>DECANO INTERINO FACULTAD DE INGENIERÍA</li>
+</div>
+</footer>
+</div>
+</body>
+</html>

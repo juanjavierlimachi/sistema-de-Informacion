@@ -1,0 +1,15 @@
+<script type="text/javascript">
+	$(".aa a").on('click',Escogido);
+	function Escogido(e){
+		e.preventDefault();
+		var ulrs=$(this).attr("href");
+		var name=$(this).attr("name");
+		//alert(ulrs);
+		$("#men").val(ulrs);
+		$("#mension").val(name);
+		$("#mesiones").hide();
+	}
+</script>
+{% for i in resultados %}
+<li class="aa"><a href="{{i.id}}" name="{{i.mension}} - {{i.carrera}}">{{i.mension}} </a></li>
+{% endfor %}

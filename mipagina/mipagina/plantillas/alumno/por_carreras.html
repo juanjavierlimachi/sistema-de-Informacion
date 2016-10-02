@@ -1,0 +1,40 @@
+<div class="table-responsive">
+<table class="table table-hover table-striped">
+	<tr><td colspan='7' align='center'>LISTA DE AlLUMNOS</td></tr>
+	<tr class="success">
+		<td>Nombre Alumno</td>
+		<td>Apellido Paterno</td>
+		<td>Apellido Materno</td>
+		<td>Nro. de CI</td>
+		<td>Sexo</td>
+		<td>Carrera</td>
+		<td>Estado</td>
+	
+	</tr>
+{% for i in alumnos %}
+		<tr>
+			<td><a href="/ok/" id="{{i.id}}"><span class="glyphicon glyphicon-chevron-right"></span></a>      {{i.nombre}}</td>
+			<td>{{i.apellido_paterno}}</td>
+			<td>{{i.apellido_materno}}</td>
+			<td>{{i.ci}} - {{i.departamento}}</td>
+			<td>{% if i.sexo == 'M' %}
+					Hombre
+				{% else %}
+					Mujer
+				{% endif %}
+			</td>
+			<td>{{i.carrera}}</td>
+			<td>
+				{% if i.estado == 0 %}
+					<span><img src="/static/img/icon_success.gif"></span>
+				{% else %}
+					<span><img src="/static/img/icon_error.gif"></span>
+				{% endif %}
+			</td>
+
+		</tr>
+{% endfor %}
+<tr><td>Registros Activos:{{cont}}</td><td>Registros Inactivos: {{con}}</td></tr>
+</table>
+</div>
+<script type="text/javascript" src="{{STATIC_URL}}js/modales.js"></script>

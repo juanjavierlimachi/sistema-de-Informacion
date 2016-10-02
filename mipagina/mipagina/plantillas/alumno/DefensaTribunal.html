@@ -1,0 +1,45 @@
+<script type="text/javascript">
+$("table tr a").on('click',detalles);
+function detalles(e){
+	e.preventDefault()
+	var dato = $(this).attr('href');
+	$.ajax({
+		type:'GET',
+		url:dato,
+		success:function(resp){
+			$("#FormAjax").html(resp);
+		}
+	});
+}
+
+</script>
+
+<table class="table table-hover">
+	<tr><td colspan='8' align='center'>LISTA DE DEFENSAS</td></tr>
+	<tr class="success">
+		<td>Titulo</td>
+	
+		<td>Alumno</td>
+		<td>Nro. de Documento</td>
+		<!-- <td>Tribunal</td>
+		<td>Fecha Defensa</td>
+		<td>Hora Defensa</td> -->
+		
+		<td>Estado</td>
+	</tr>
+{% for i in datos %}
+		<tr>
+			<td><a href="/datalles/{{i.id}}"><span class="glyphicon glyphicon-chevron-right"></span></a>    {{i.titulo}}</td>
+			<td>{{i.alumno}}</td>
+			<td>{{i.numero_documento}}</td>
+			<td>
+				{% if i.estado == 0 %}
+					<span><img src="/static/img/icon_success.gif"></span>
+				{% else %}
+					<span><img src="/static/img/icon_error.gif"></span>
+				{% endif %}
+			</td>	
+		</tr>
+{% endfor %}
+<tr><td>Registros Activos:{{cont}}</td><td>Registros Inactivos: {{con}}</td></tr>
+</table>

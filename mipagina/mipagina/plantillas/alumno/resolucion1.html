@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+	 <meta charset="utf-8">
+	<title>Resolucion Decanatura</title>
+	<style type="text/css">
+	*{margin: 0px; padding: 0px;}
+
+	body div p{ font-family: Arial, sans-serif;font-size: 15px; line-height: 25px;; margin: 25px;
+		text-align:justify ; width: 50%; margin: auto;}
+	body div #titulo{text-align: center; margin-top: 0px;margin-bottom: 0px;}
+	footer div{width: 50%;margin: auto;margin-top: 50px;}
+	footer div li{margin: auto;float: left;width: 250px; list-style: none; text-align: center;}
+	</style>
+</head>
+<body>
+<div>
+	<p>CORRESPONDE AL MEMORIAL Nº {{dato.numero_documento}} A FAVOR DE {{dato.alumno|upper}} 
+		<p id='titulo'><strong>RESOLUCIÓN DECANATURA <br>FACULTAD DE INGENIERÍA</p>
+<p></strong>
+<strong>Vistos:</strong><br>El memorial presentado por <strong>{{dato.alumno|upper}}</strong> con C.I. Nº {{id_alumno.ci}} {{id_alumno.departamento}}, solicitando señalamiento de día y hora para el Examen de Defensa Oral de {{dato.modaliad}}; el informe y demás antecedentes que cursan en su expediente, y</p>
+
+<p><strong>Considerando:</strong><br> Que, <strong>{{dato.alumno|upper}}</strong>, de la Carrera de {{id_alumno.carrera}} dependiente de la Facultad de Ingeniería de la Universidad Autónoma “Tomás Frías”, ha cumplido con todos los requisitos exigidos por el Estatuto Orgánico de la Universidad y el Reglamento de Graduación vigentes.
+<br>Que, el Tribunal Examinador mediante informe, aprueba el Proyecto de Grado Técnico,  por estar de conformidad con el Perfil, “<strong>{{dato.titulo|upper}}</strong>”, presentado oportunamente por el postulante.<br>
+<strong>POR TANTO, LA DECANATURA DE LA FACULTAD DE INGENIERÍA EN USO DE SUS ESPECÍFICAS ATRIBUCIONES;<br>
+RESUELVE:</strong></p>
+
+<p><strong>Artículo Primero.-</strong>	Señálese el día <strong>{{dia}}</strong> {{dato.fecha_de_defensa}} a horas: {{horas}}, la recepción del Examen de Defensa Oral de {{dato.modaliad}} de <strong>{{dato.alumno|upper}}</strong> debiendo efectuar el Acto de inauguración y el desarrollo del mismo en el ambiente audiovisual de la Facultad de Ingeniería.<br>
+<strong>Artículo Segundo.-</strong>	La Secretaria del Decanato de la Facultad de Ingeniería, queda recomendada de llenar todas las demás formalidades de rigor.<br>
+
+Es dada en la ciudad de Potosí, a los <strong>{{dias}} días del mes de {{mes}} del año dos mil {{anio}}</strong>.<br>
+Comuníquese, publíquese, regístrese, cúmplase y archívese.<br><br>
+Es conforme:
+</p>		
+</div>
+<footer>
+<div><li>Leonor Martha Ugarte<br>    				   
+	<strong>Secretaria</strong>	</li> 				       
+	<li>Ing. Alberto Gonzales Murillo<br>
+	<strong>Decano Interino</strong></li>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<style type="text/css">
+.resultados{width: 400px;position: absolute; margin: auto; background: white;margin-left: 150px;
+     }
+</style>
+<script type="text/javascript">
+	$(".aa a").on('click',Escogido);
+	function Escogido(e){
+		e.preventDefault();
+		var ulrs=$(this).attr("href");
+		var name=$(this).attr("name");
+		var carr=$(this).attr("id");
+		//alert(ulrs);
+		$("#alumno").val(ulrs);
+		$("#nombre").val(name);
+		$("#carrera").val(carr);
+		$(".resultados").hide();
+	}
+</script>
+{% for i in resultados %}
+<li class="aa"><a href="{{i.id}}" name="{{i.nombre}}  {{i.apellido_paterno}}  {{i.apellido_materno}}" id="{{i.carrera}}">Cod: {{i.id}}.- {{i.nombre}} - {{i.apellido_paterno}} - {{i.apellido_materno}} - {{i.carrera}}</a></li>
+
+{% endfor %}

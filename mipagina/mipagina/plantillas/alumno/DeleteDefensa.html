@@ -1,0 +1,23 @@
+<script type="text/javascript">
+$(".datos li a").click(function(e){
+  e.preventDefault();
+    $.ajax({
+      	type:"GET",
+      	url:$(this).attr("href"),
+      	success:function(resp){
+      		$("#ventanas").html(resp);
+          $.ajax({
+              type:'GET',
+              url:'/datalles/'+{{dato.id}}+'/',
+              success:function(resp){
+                $('#FormAjax').html(resp);
+              }
+          });
+      	}
+    });
+});
+</script>
+<ul class="datos">
+<li>Esta Seguro de Eliminar el Tema: {{dato.titulo}}.<br> Perteneciente a: {{dato.alumno}}?
+<a href="/Deletedefensa/{{dato.id}}/" class="btn btn-danger">Si</a>
+</li>

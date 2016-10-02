@@ -1,0 +1,144 @@
+<script type="text/javascript">
+$(function(){
+	$("#id_tribunal_1").hide();
+	$("#id_tribunal_2").hide();
+	$("#id_tribunal_3").hide();
+	$("label").hide();
+	$("#cod").hide();
+
+	$('#Tipo').submit(function(e){
+		e.preventDefault();
+		if ($("#uno").val()==$("#dos").val() || $("#uno").val()==$("#tres").val() || $("#dos").val()==$("#tres").val()){
+			alert("No puede deve ser el mismo tribunal");
+			return false;
+		}
+		if ($("#uno").val()==" "||$("#dos").val()==" "|| $("#tres").val()==" " || $("#hora").val()==""){
+			alert("Error deve Ingresar los tribunales");
+			return false;
+		}
+		else{
+			var dato=$(this).serialize();
+			console.log(dato);
+			$.ajax({
+				type:'POST',
+				url:'/addTribunal/',
+				data: dato,
+				success:function(resp){
+					console.log(resp);
+					$('#id_tribunal_1').html(resp);
+					$("#ventanas").dialog("close");
+						$.ajax({
+							type:'GET',
+							url:'/datalles/'+'{{cod}}'+'/',
+							success:function(resp){
+								 $("#FormAjax").html(resp);
+							}
+						});
+				}
+			});
+		}
+	});
+	var tbuscar=$("#uno").attr('autocomplete','off');
+    tbuscar.keypress(buscar);
+
+    var tbuscar2=$("#dos").attr('autocomplete','off');
+    tbuscar2.keypress(Dos);
+
+    var tbuscar3=$("#tres").attr('autocomplete','off');
+    tbuscar3.keypress(Tres);
+    $("#id_hora").timepicker({
+	    showNowButton: true,
+	    defaultTime: '',  // removes the highlighted time for when the input is empty.
+	    showCloseButton: true,
+	    nowButtonText: 'Ahora',
+	    closeButtonText: 'Cerrar', 
+	    showPeriodLabels: true,
+	    hourText: 'Hora',
+	    minuteText: 'Minuto'
+	});
+});
+
+function buscar(){
+    $.ajax({
+        type:'GET',
+        url:'/buscarTrinunal/',
+        data:$(this).serialize(),
+        success:resultado,
+        error:errores
+    });
+}
+function Dos(){
+    $.ajax({
+        type:'GET',
+        url:'/buscarTrinunalDos/',
+        data:$(this).serialize(),
+        success:resultadoo,
+        error:errores
+    });
+}
+function Tres(){
+    $.ajax({
+        type:'GET',
+        url:'/buscarTrinunalTres/',
+        data:$(this).serialize(),
+        success:resultado3,
+        error:errores
+    });
+}
+function resultado(data){
+    $(".resultadoss").fadeIn("slow");
+    console.log(data);
+    $(".resultadoss").html(data);
+}
+
+function resultadoo(data){
+    $(".dos").fadeIn("slow");
+    console.log(data);
+    $(".dos").html(data);
+}
+function resultado3(data){
+    $(".tres").fadeIn("slow");
+    console.log(data);
+    $(".tres").html(data);
+}
+function errores(){
+    alert ("Error");
+}
+</script>
+<style type="text/css">
+.resultadoss{width: 400px;position: absolute; margin: auto; background: white;margin-left: 100px;
+     }
+ .resultadoss li{margin-top: 12px; }
+ .dos{width: 400px;position: absolute; margin: auto; background: white;margin-left: 100px;
+     }
+ .dos li{margin-top: 12px; }
+ .tres{width: 400px;position: absolute; margin: auto; background: white;margin-left: 100px;
+     }
+ .tres li{margin-top: 12px; }
+ .aa{list-style:none;}
+</style>
+<div class="card">
+	<p id="texto">Registro Tribunal</p>
+	<form method="" action="#" id="">{% csrf_token %}
+		<input type='hidden' name='csrfmiddlewaretoken' value='syjxeQ5tzoZ5JJXr9tkORQqwl9QfQV8y' />
+		<tr><th>
+			
+		</th><td>Presidente:    <input id="uno" maxlength="150" name="uno" type="text" required placeholder="Busque el tribunal"/></td><br>
+				<di class="resultadoss"></di>
+	</tr>
+<tr><th>
+</th><td>Vocal Secretario:   <input id="dos" maxlength="150" name="dos" type="text" placeholder="Busque el tribunal" required/></td><br>
+		<di class="dos"></di>
+	</tr>
+<tr><th>
+</th><td>Vocal:    <input id="tres" maxlength="150" name="tres" type="text" placeholder="Busque el tribunal" required/></td><br>
+			<di class="tres"></di>
+</tr><br>
+	</form>
+	
+<form method="POST" id="Tipo">{% csrf_token %}
+	<input typ="text" name="cod" value="{{cod}}" id="cod">
+	{{forms}}
+	<button class="btn btn-primary">Registrar</button>
+</form>
+</div>

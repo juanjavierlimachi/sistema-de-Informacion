@@ -1,0 +1,215 @@
+<script type="text/javascript">
+	
+		$("#perfiles li a").on("click",function(e){
+			e.preventDefault();
+			var urls=$(this).attr("href");
+			if (urls == '/PerfilAlumno/'){
+				$.ajax({
+					type:'GET',
+					url:'/PerfilAlumno/'+{{id_alumno.id}}+'/',
+					success:function(resp){
+						$("#FormAjax").html(resp);
+					}
+				});
+			}
+			else{
+				cargarFormularios(urls)
+				$("#ventanas").dialog({
+					modal:true,
+					show:"blind",
+					width: 600,
+					hide:"explode",
+					title:"Detalles.",
+					position: "center"
+				});	
+			}
+		});
+		cargarFormularios=function(url){
+				$.ajax({
+						url: url,
+						type: 'GET',
+						data: {}
+					})
+					.done(function(response) {
+						$("#ventanas").html(response);
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function() {
+						console.log("complete");
+					});
+			}
+		function Word(){
+
+			$.ajax({
+				type:'GET',
+				url:'/resolucion/{{dato.id}}/',
+				success:function(resp){
+					$("#ventanas").html(resp).hide();
+					$("#ventanas").wordExport();
+				}
+			});
+		}
+		function Tribunales(){
+			$.ajax({
+				type:'GET',
+				url:'/citacion/{{dato.id}}/',
+				success:function(dato){
+					$("#ventanas").html(dato).hide();
+					$("#ventanas").wordExport();
+				}
+			});
+		}
+		function Acta(){
+			$.ajax({
+				type:'GET',
+				url:'/examen/{{dato.id}}/',
+				success:function(dato){
+					$("#ventanas").html(dato).hide();
+					$("#ventanas").wordExport();
+				}
+			});
+		}
+		function Publicacion(){
+			$.ajax({
+				type:'GET',
+				url:'/publicacion/{{dato.id}}/',
+				success:function(dato){
+					$("#ventanas").html(dato).hide();
+					$("#ventanas").wordExport();
+				}
+			});
+		}
+		function solicitud(){
+			$.ajax({
+				type:'GET',
+				url:'/solicitud/{{dato.id}}/',
+				success:function(dato){
+					$("#ventanas").html(dato).hide();
+					$("#ventanas").wordExport();
+				}
+			});
+		}
+</script>
+<div class="btn-group">
+		<button type="button" class="btn btn-default dropdown-toggle"
+	          data-toggle="dropdown">
+	    Opciones <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu" id="perfiles">
+	  	<li><a href="/PerfilAlumno/" button type="button" class="btn btn-default"  id="perfil">
+ <span class="glyphicon glyphicon-user"></span>	Ir Perfil Alumno</a></li>
+	    <li><a href="/Updatedefensa/{{dato.id}}/" >
+	    	<span class="glyphicon glyphicon-pencil"> Editar Defensa</a></li>
+	    <li><a href="/DeleteDefensa/{{dato.id}}/">
+	    	<span class="glyphicon glyphicon-trash" style="color:red"></span> Dar Baja Defensa</a></li>
+	  </ul>
+
+</div>
+<div class="btn-group">
+ <button type="button" class="btn btn-default dropdown-toggle"
+	          data-toggle="dropdown">
+	    Resolución Decanatura <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu">
+	  	<li><a href="/resolucion/{{dato.id}}/" button type="button" class="btn btn-default" target="_blank">
+ <span class="glyphicon glyphicon-user"></span>	Imprimir resolución</a></li>
+	    <li><a href="#" onclick="Word()" >
+	    	<span class="glyphicon glyphicon-pencil"> Exportar a Word</a></li>
+	  </ul>
+</div>
+<div class="btn-group">
+ <button type="button" class="btn btn-default dropdown-toggle"
+	          data-toggle="dropdown">
+	    Citación a Tribunales <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu">
+	  	<!-- <li><a href="/citacion/{{dato.id}}/" button type="button" class="btn btn-default" target="_blank">
+ <span class="glyphicon glyphicon-user"></span>	Imprimir Citación</a></li> -->
+	    <li><a href="#" onclick="Tribunales()" >
+	    	<span class="glyphicon glyphicon-pencil"> Exportar a Word</a></li>
+	  </ul>
+</div>
+<div class="btn-group">
+ <button type="button" class="btn btn-default dropdown-toggle"
+	          data-toggle="dropdown">
+	    Acta de Examen <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu">
+	  	<li><a href="/examen/{{dato.id}}/" button type="button" class="btn btn-default" target="_blank">
+ <span class="glyphicon glyphicon-user"></span>	Imprimir Acta</a></li>
+	    <li><a href="#" onclick="Acta()" >
+	    	<span class="glyphicon glyphicon-pencil"> Exportar a Word</a></li>
+	  </ul>
+</div>
+<div class="btn-group">
+ <button type="button" class="btn btn-default dropdown-toggle"
+	          data-toggle="dropdown">
+	    Publicación <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu">
+	  	<li><a href="/publicacion/{{dato.id}}/" button type="button" class="btn btn-default" target="_blank">
+ <span class="glyphicon glyphicon-user"></span>	Imprimir Publicación</a></li>
+	    <li><a href="#" onclick="Publicacion()" >
+	    	<span class="glyphicon glyphicon-pencil"> Exportar a Word</a></li>
+	  </ul>
+</div>
+<div class="btn-group">
+ <button type="button" class="btn btn-default dropdown-toggle"
+	          data-toggle="dropdown">
+	    Acta de Solicitud <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu">
+	  	<li><a href="/solicitud/{{dato.id}}/" button type="button" class="btn btn-default" target="_blank">
+ <span class="glyphicon glyphicon-user"></span>	Imprimir Solicitud Final</a></li>
+	    <li><a href="#" onclick="solicitud()" >
+	    	<span class="glyphicon glyphicon-pencil"> Exportar a Word</a></li>
+	  </ul>
+</div>
+<br>
+
+<table>
+	<tr><td><h4><strong>Datos de defensa Oral: {{dato.modaliad}}</strong></h4></td></tr>
+	<tr>
+       <td rowspan="13"><img src="{{STATIC_URL}}img/gra.png" id="imagen"></td>
+   </tr>
+	<tr><td>Título: {{dato.titulo|upper}}</td></tr>
+	<tr><td>Carrera: {{id_alumno.carrera|upper}}</td></tr>
+	<tr><td>Mension: {{dato.mension}}</td></tr>
+	<tr><td>Alumno: {{dato.alumno|upper}}</td></tr>
+	<tr><td>Nro. CI: {{id_alumno.ci}}  {{id_alumno.departamento}}</td></tr>
+	<tr><td>Sexo: {% if id_alumno.sexo == 'M' %}
+		MASCULINO
+		{% else %}
+		FEMENINO
+		{% endif %}
+	</td></tr>
+	<tr><td>Fecha Programada: {{dato.fecha_de_defensa}} a Horas: {{dato.hora_de_la_defensa}}</td></tr>
+	<tr><td>Lugar: {{dato.lugar}}</td></tr>
+	<tr>
+		<td>Tribunales: <br>{% for tri in dato.tribunal.all %}
+		<li>{{tri.grado}}.- {{tri.nombre|upper}} {{tri.apellido_paterno|upper}}   {{tri.apellido_materno|upper}}</li>
+		{% empty %}
+			<li><a href="/Agergartri/{{dato.id}}/">Ingresar Datos Finales</a></li>
+		{% endfor %}
+		</td>
+	</tr>
+	{% if hora %}
+	<tr><td>Se Concluyó a Horas: {{dato.hora_de_Conclucion}} </td></tr>
+	<tr><td>Opteniendo la Calificacion de: {{dato.calificacion|upper}}</td></tr>
+	{% else %}
+	<!-- <tr><td><a href="/AgregarHora/{{dato.id}}/" title="Agregar Hora y Calificación">Aún Esta en Proceso.</a></td></tr> -->
+	{% endif %}
+	<tr><td>
+			{% if dato.estado == 0 %}
+				Estado: <span><img src="/static/img/icon_success.gif" title="Activo"></span>
+			{% else %}
+				Estado: <span><img src="/static/img/icon_error.gif" title="Inactivo"></span>
+			{% endif %}
+		</td>	
+	</tr>
+</table>
+<script type="text/javascript" src="{{STATIC_URL}}js/modales.js"></script>
+<script src="{{STATIC_URL}}js/FileSaver.js"></script> 
+<script src="{{STATIC_URL}}js/jquery.wordexport.js"></script> 

@@ -1,0 +1,120 @@
+<script type="text/javascript">
+$('#carrera').on('change',Carreras);
+    function Carreras(){
+        var id = $(this).val();
+        console.log(id); //aki vemos k el id se esta inprimiendo
+        $.ajax({
+            type: 'GET',
+            url:"/por_carreras/"+id+"",
+            beforeSend:Espera,
+            success: function(data){
+                console.log(data);
+                $('.table-responsive').html(data);
+            }
+        });
+        function Espera(){
+        $(".table-responsive").text("Prosesando...");
+      }
+    }
+ $(function(){
+   	var tbuscar=$("#Pro").attr('autocomplete','off');
+      tbuscar.keypress(buscarProducto);
+      function buscarProducto(){
+          $.ajax({
+              type:'GET',
+              url:'/buscarAlumnoView/',
+              data:$("#Busqueda").serialize(),
+              success:resultado,
+              error:errores
+          });
+        console.log($("#Busqueda").serialize());
+      }
+        function resultado(data){
+            //$("#DatosAjax").fadeIn("slow");
+            console.log(data);
+            $('#DatosAjax').html(data);
+        }
+        function errores(){
+            alert("Error");
+        }
+
+      $("#Busqueda").on("submit",function(e){
+        e.preventDefault();
+        var datos=$(this).serialize();
+        //alert(datos);
+          $.ajax({
+              type:"POST",
+              url:"/buscarAlumnoView/",
+              data:datos,
+              success:function(resp){
+                //$("#categorias").fadeIn("slow");
+                //alert(resp);
+                //$("#categorias").html(resp);
+                $('#DatosAjax').html(resp);
+              }
+          });
+      });
+   });
+</script>
+<div id="controles">
+<div class="btn-group">
+  <!-- <a href="/resolucion/{{dato.id}}/" type="button" class="btn btn-default" target="_blank">
+  <span class="glyphicon glyphicon-duplicate"></span>	Resolución Decanatura</a> -->
+		  <select class="selectpicker show-tick" id="carrera" >
+			  <option>Seleccionar por Carrera</option>
+			  {% for c in carreras %}
+			  <option value="{{c.id}}">{{c.carrera}}</option>
+			 {% endfor %}
+		 </select>
+   <form method="POST" id="Busqueda">{% csrf_token %}
+    <input type="text" name="p" id="Pro" placeholder="Nombre, Apellidos, CI." class="form-control" title="Buscar Alumno" required/>
+    <span class="input-group-btn">
+    <button class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button></span>
+   </form>
+</div>
+</div>
+<div class="table-responsive">
+<table class="table table-hover table-striped">
+	<tr><td colspan='7' align='center'>LISTA DE AlLUMNOS</td></tr>
+	<tr class="success">
+		<td>Nombre Alumno</td>
+		<td>Apellido Paterno</td>
+		<td>Apellido Materno</td>
+		<td>Nro. de CI</td>
+		<td>Sexo</td>
+		<td>Carrera</td>
+		<td>Estado</td>
+	
+	</tr>
+{% for i in alumnos %}
+		<tr>
+			<td><a href="/ok/" id="{{i.id}}"><span class="glyphicon glyphicon-chevron-right"></span></a>      {{i.nombre}}</td>
+			<td>{{i.apellido_paterno}}</td>
+			<td>{{i.apellido_materno}}</td>
+			<td>{{i.ci}} - {{i.departamento}}</td>
+			<td>{% if i.sexo == 'M' %}
+					Hombre
+				{% else %}
+					Mujer
+				{% endif %}
+			</td>
+			<td>{{i.carrera}}</td>
+			<td>
+				{% if i.estado == 0 %}
+					<span><img src="/static/img/icon_success.gif"></span>
+				{% else %}
+					<span><img src="/static/img/icon_error.gif"></span>
+				{% endif %}
+			</td>
+
+		</tr>
+{% endfor %}
+<tr><td>Registros Activos:{{cont}}</td><td>Registros Inactivos: {{con}}</td></tr>
+</table>
+</div>
+<script type="text/javascript" src="{{STATIC_URL}}js/modales.js"></script>
+<style type="text/css">
+#controles{height: 30px}
+#controles form{width: 25%;float: right;margin-right: 0px;}
+#controles form input{width: 70%;float: left;}
+</style>

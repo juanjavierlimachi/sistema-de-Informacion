@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <meta charset="utf-8">
+	<title>Examen Oral</title>
+	<style type="text/css">
+	*{margin: 0px; padding: 0px;}
+
+	body #texto p{ font-family: Arial, sans-serif;font-size: 15px; line-height: 25px;; margin: 25px;
+		text-align:justify ; width: 50%; margin: auto;}
+	body div #titulo{text-align: center; margin-top: 0px;margin-bottom: 0px;}
+	footer div{width: 50%;margin: auto;margin-top: -30px;}
+	footer div li{margin: auto;float: left;width: 250px; list-style: none; text-align: center;}
+	#firmas{width: 50%;margin: auto;margin-top: 20px;margin-bottom: -50px;}
+	#firmas table{width: 100%}
+	#firmas table tr{height: 90px; text-align: center;}
+	</style>
+</head>
+<body>
+<div id="texto">
+	<p id="titulo">
+		<strong>Universidad Autónoma “Tomás Frías<br>
+Facultad de Ingeniería<br>
+Acta de Examen de Defensa Oral de {{dato.modaliad}}</strong>
+	</p><br>
+	<p>
+		En la ciudad de Potosí, a horas: ........... del día <strong>jueves treinta y uno  de  marzo del año dos mil dieciséis</strong> , en cumplimiento a disposiciones de la autoridad académica competente de la Universidad Autónoma "Tomas Frías", se instala el Tribunal Examinador compuesto por los siguientes docentes:<br>
+	……………………………………………………………………………………	Presidente<br>
+	……………………………………………………………………………………	Vocal Secretario,  e<br>
+	……………………………………………………………………………………	Vocal
+
+	</p>
+	<p>
+		con el objeto de recibir el Examen de Defensa Oral de {{dato.modaliad}} del postulante <strong>{{dato.alumno|upper}}</strong>,  con C.I. <strong>N° {{id_alumno.ci}}</strong> {{id_alumno.departamento}}., de la Carrera de {{id_alumno.carrera}}
+		 {% if dato.mension %} módulo {{dato.mension}} {% endif %}, dependiente de la Facultad de Ingeniería, cuyo tema versa sobre: “<strong>{{dato.titulo|upper}}</strong>”.
+	</p>
+	<p>Conforme a Reglamento y Resoluciones en vigencia, los componentes del Tribunal, por su orden y por el tiempo señalado al efecto, formulan interrogaciones pertinentes, concluyendo la prueba a horas: ............
+Finalizado el Examen, el Tribunal pasa a deliberar en sesión reservada, para otorgar al postulante la calificación de:<br>
+…………………………………………………………………………………………………………<br>
+Reinstalada la sesión, el Vocal Secretario del Tribunal, lee públicamente y se suscriben al  presente documento en constancia.
+</p>
+	<div id="firmas">
+		<table>
+				<tr><td>PRESIDENTE</td><td>VOCAL SECRETARIO</td><td>VOCAL</td></tr>
+				<tr><td>DIRECTOR</td><td>DECANO</td></tr>
+		</table>
+	</div>
+	
+</footer><br>
+<p><br>
+<strong>Observaciones.-</strong> -----------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------
+
+</p>
+</div>
+</body>
+</html>

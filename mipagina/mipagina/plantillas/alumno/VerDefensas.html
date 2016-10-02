@@ -1,0 +1,90 @@
+<script type="text/javascript">
+$("table tr a").on('click',detalles);
+function detalles(e){
+	e.preventDefault()
+	var dato = $(this).attr('href');
+	$.ajax({
+		type:'GET',
+		url:dato,
+		success:function(resp){
+			$("#FormAjax").html(resp);
+		}
+	});
+}
+$('#carrera').on('change',Carreras);
+    function Carreras(){
+        var id = $(this).val();
+        console.log(id); //aki vemos k el id se esta inprimiendo
+        $.ajax({
+            type: 'GET',
+            url:"/defesas_por_carreras/"+id+"/",
+            beforeSend:Espera,
+            success: function(data){
+                console.log(data);
+                $('.table-responsive').html(data);
+            }
+        });
+        function Espera(){
+        $(".table-responsive").text("Prosesando...");
+      }
+    }
+</script>
+<style type="text/css">
+#controles{height: 30px}
+#controles form{width: 25%;float: right;margin-right: 0px;}
+#controles form input{width: 70%;float: left;}
+</style>
+<div id="controles">
+	<div class="btn-group">
+			  <select class="selectpicker show-tick" id="carrera" >
+				  <option>Defensas por Carrera</option>
+				  {% for c in carreras %}
+				  <option value="{{c.id}}">{{c.carrera}}</option>
+				 {% endfor %}
+			 </select>
+	   <form method="POST" id="Busqueda">{% csrf_token %}
+	    <input type="text" name="p" id="Pro" placeholder="Nombre, Apellidos, CI." class="form-control" title="Buscar Alumno" required/>
+	    <span class="input-group-btn">
+	    <button class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button></span>
+	   </form>
+	</div>
+</div>
+<div class="table-responsive">
+<table class="table table-hover table-striped">
+	<tr><td colspan='8' align='center'>ROL DE DEFENSAS PROGRAMADAS</td></tr>
+	<tr class="success">
+		<td>Titulo</td>
+	
+		<td>Alumno</td>
+		<td>Fecha y Hora de Defensa</td>
+		<!-- <td>Tribunal</td>
+		<td>Fecha Defensa</td>
+		<td>Hora Defensa</td> -->
+		<td>Tribunales</td>
+		<td>Estado</td>
+	</tr>
+{% for i in tribunales %}
+		<tr>
+			<td><a href="/datalles/{{i.id}}"><span class="glyphicon glyphicon-chevron-right"></span></a>    {{i.titulo}}</td>
+			
+			<td>{{i.alumno}}</td>
+			<td>{{i.fecha_de_defensa}} Horas: {{i.hora_de_la_defensa}}</td>
+			<td>
+{% for tri in i.tribunal.all %}
+	{{tri.grado}}.- {{tri.nombre|upper}} {{tri.apellido_paterno|upper}} {{tri.apellido_materno|upper}}<br>
+{% empty %}
+	<span style="color:red">En proceso</span>
+	{% endfor %}
+			</td>
+			<td>
+				{% if i.estado == 0 %}
+					<span><img src="/static/img/icon_success.gif"></span>
+				{% else %}
+					<span><img src="/static/img/icon_error.gif"></span>
+				{% endif %}
+			</td>	
+		</tr>
+{% endfor %}
+<tr><td>Registros Activos:{{cont}}</td><td>Registros Inactivos: {{con}}</td></tr>
+</table>
+
